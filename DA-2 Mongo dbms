@@ -1,0 +1,43 @@
+//or question for dbms da-2
+
+import pymongo
+
+# Connect to MongoDB
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+database = client["mydatabase"]
+
+# Create collections
+collection1 = database["users"]
+collection2 = database["products"]
+
+# Insert documents
+user1 = {"name": "John Doe", "email": "john@example.com"}
+user2 = {"name": "Jane Smith", "email": "jane@example.com"}
+collection1.insert_many([user1, user2])
+
+product1 = {"name": "Product 1", "price": 19.99}
+product2 = {"name": "Product 2", "price": 29.99}
+collection2.insert_many([product1, product2])
+
+# Retrieve documents
+all_users = collection1.find()
+for user in all_users:
+    print(user)
+
+all_products = collection2.find()
+for product in all_products:
+    print(product)
+
+# Update document
+query = {"name": "John Doe"}
+new_values = {"$set": {"email": "newemail@example.com"}}
+collection1.update_one(query, new_values)
+
+# Delete document
+query = {"name": "Jane Smith"}
+collection1.delete_one(query)
+
+# Retrieve updated documents
+all_users = collection1.find()
+for user in all_users:
+    print(user)
